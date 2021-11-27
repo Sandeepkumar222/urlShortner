@@ -48,7 +48,6 @@ app.get("/urlTable", (req, res) =>{
 })
 
 //importing Routes
-const userRoute = require("./routes/usersRoute");
 const authRoute = require("./routes/authRoute");
 const forgotPasswordRoute = require("./routes/forgotPasswordRoute")
 

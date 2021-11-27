@@ -42,7 +42,7 @@ const service = {
 
     //Generating token and sending token as response
     const token = jwt.sign({userid : user._id,email : user.email}, process.env.TOKEN_SECRET, {expiresIn:"8h"});
-        emailSending();
+     await emailSending();
       
       
 
@@ -51,9 +51,9 @@ const service = {
         // Generate test SMTP service account from ethereal.email
         // Only needed if you don't have a real mail account for testing
         // let testAccount = await nodemailer.createTestAccount();
-
+        console.log(data.email,"sending...1")
         // create reusable transporter object using the default SMTP transport
-        let transporter = nodemailer.createTransport(smtpTransport({
+        let transporter = await nodemailer.createTransport(smtpTransport({
           host: 'smtp.gmail.com',
           port: 587,
           ignoreTLS: false,
@@ -66,14 +66,14 @@ const service = {
          rejectUnauthorized: false
      }
         }));
-
+        console.log(data.email,"sending...1")
         // send mail with defined transport object
         let info = await transporter.sendMail({
           from: '"Fitness tracker 👻" <fitnesstracker123456@gmail.com>', // sender address
           to: data.email, // list of receivers
           subject: "Hello ✔ fitness tracker verification link", // Subject line
           text: "Please click on the button to change the password", // plain text body
-          html: `<b><a href=https://6182c19c26af072fdb84d0e1--musing-yalow-a09866.netlify.app/changePassword/${token}>Change password</a></b>`, // html body
+          html: `<b><a href="https://urlshortner12343.herokuapp.com/updatePassPage/${token}">Change password</a></b>`, // html body
         });
 
         console.log("Message sent: %s", info.messageId);
@@ -116,13 +116,13 @@ const service = {
      reqbody.password = await bcrypt.hash(reqbody.password, salt);
 
         await mongo.db
-        .collection("users")
+        .collection("urlShortnerUsers")
         .findOneAndUpdate(
           { email: userid.email },
           { $set: reqbody },
           { returnDocument: "after" }
         );
-      res.send("Changed the password");
+      await res.redirect(`/postUrl/${req}?fullUrl=refresh`);
       
     } catch (err) {
       console.log(err);
@@ -132,7 +132,7 @@ const service = {
 
   findEmail(mail) {
     console.log(mail);
-    return mongo.db.collection("users").findOne({ email: mail });
+    return mongo.db.collection("urlShortnerUsers").findOne({ email: mail });
   },
 };
 

@@ -122,7 +122,7 @@ const service = {
           { $set: reqbody },
           { returnDocument: "after" }
         );
-      await res.redirect(`/postUrl/${req}?fullUrl=refresh`);
+      await res.redirect(`/`);
       
     } catch (err) {
       console.log(err);

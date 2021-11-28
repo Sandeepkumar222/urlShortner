@@ -12,7 +12,7 @@ const forgotPasswordService = require('../services/forgotPasswordService')
 
 router.post("/emailSending", forgotPasswordService.emailCheck);
 
-router.put("/update/:id",async(req,res) => {
+router.post("/update/:id",async(req,res) => {
    
     const post = await forgotPasswordService.updatePassword(req.params.id,req.body,res) ;
     

@@ -119,7 +119,7 @@ async function AppServer() {
     });
 
     //Routes
-    app.post("/forgotPassword", forgotPasswordRoute);
+    app.use("/forgotPassword", forgotPasswordRoute);
     app.use("/auth", authRoute);
 
     //Checking token
